@@ -6,7 +6,7 @@ import DateCounter from './DateCounter.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <App /> */}
-    <DateCounter/>
+    <App />
+    {/* <DateCounter/> */}
   </StrictMode>,
 )
