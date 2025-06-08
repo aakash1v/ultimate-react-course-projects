@@ -1,6 +1,12 @@
-import './App.css'
-import DateCounter from './DateCounter'
+import Accordion from './Accordion2'
+import TipCalculator from './TipCalculator'
 
 export default function App() {
-  return (<DateCounter />)
+  return (
+    <div>
+      {/* <Accordion /> */}
+      <TipCalculator/>
+    </div>
+  );
 }
+
