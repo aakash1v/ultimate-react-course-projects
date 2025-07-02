@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { PostProvider, usePosts } from "./PostContext";
 import { faker } from "@faker-js/faker";
 
 function createRandomPost() {
@@ -7,34 +8,8 @@ function createRandomPost() {
     body: faker.hacker.phrase(),
   };
 }
-
 function App() {
-  const [posts, setPosts] = useState(() =>
-    Array.from({ length: 15 }, () => createRandomPost()),
-  );
-  const [searchQuery, setSearchQuery] = useState("");
   const [isFakeDark, setIsFakeDark] = useState(false);
-
-  // Derived state. These are the posts that will actually be displayed
-  const searchedPosts =
-    searchQuery.length > 0
-      ? posts.filter((post) =>
-          `${post.title} ${post.body}`
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase()),
-        )
-      : posts;
-
-  function handleAddPost(post) {
-    setPosts((posts) => [post, ...posts]);
-  }
-  function handleRemovePost(posttoremove) {
-    setPosts((posts) => posts.filter((post) => post !== posttoremove));
-  }
-
-  function handleClearPosts() {
-    setPosts([]);
-  }
 
   // Whenever `isFakeDark` changes, we toggle the `fake-dark-mode` class on the HTML element (see in "Elements" dev tool).
   useEffect(
@@ -52,25 +27,19 @@ function App() {
       >
         {isFakeDark ? "☀️" : "🌙"}
       </button>
-
-      <Header
-        posts={searchedPosts}
-        onClearPosts={handleClearPosts}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-      />
-      <Main
-        posts={searchedPosts}
-        onAddPost={handleAddPost}
-        handleRemovePost={handleRemovePost}
-      />
-      <Archive onAddPost={handleAddPost} />
-      <Footer />
+      <PostProvider>
+        <Header />
+        <Main />
+        <Archive />
+        <Footer />
+      </PostProvider>
     </section>
   );
 }
 
-function Header({ posts, onClearPosts, searchQuery, setSearchQuery }) {
+function Header() {
+  const { posts, onClearPosts, searchQuery, setSearchQuery } = usePosts();
+
   return (
     <header>
       <h1>
@@ -88,7 +57,8 @@ function Header({ posts, onClearPosts, searchQuery, setSearchQuery }) {
   );
 }
 
-function SearchPosts({ searchQuery, setSearchQuery }) {
+function SearchPosts() {
+  const { searchQuery, setSearchQuery } = usePosts();
   return (
     <input
       value={searchQuery}
@@ -98,20 +68,22 @@ function SearchPosts({ searchQuery, setSearchQuery }) {
   );
 }
 
-function Results({ posts }) {
+function Results() {
+  const { posts } = usePosts();
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
-function Main({ posts, onAddPost, handleRemovePost }) {
+function Main() {
   return (
     <main>
-      <FormAddPost onAddPost={onAddPost} />
-      <Posts posts={posts} handleRemovePost={handleRemovePost} />
+      <FormAddPost />
+      <Posts />
     </main>
   );
 }
 
-function Posts({ posts, handleRemovePost }) {
+function Posts() {
+  const { posts, handleRemovePost } = usePosts();
   return (
     <section>
       <List posts={posts} handleRemovePost={handleRemovePost} />
@@ -119,7 +91,8 @@ function Posts({ posts, handleRemovePost }) {
   );
 }
 
-function FormAddPost({ onAddPost }) {
+function FormAddPost() {
+  const { onAddPost } = usePosts();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -148,7 +121,8 @@ function FormAddPost({ onAddPost }) {
   );
 }
 
-function List({ posts, handleRemovePost }) {
+function List() {
+  const { posts, handleRemovePost } = usePosts();
   return (
     <ul>
       {posts.map((post, i) => (
