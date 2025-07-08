@@ -1,18 +1,6 @@
 {
   "cities": [
     {
-      "cityName": "Lisbon",
-      "country": "Portugal",
-      "emoji": "🇵🇹",
-      "date": "2027-10-31T15:59:59.138Z",
-      "notes": "My favorite city so far!",
-      "position": {
-        "lat": 38.727881642324164,
-        "lng": -9.140900099907554
-      },
-      "id": 73930385
-    },
-    {
       "cityName": "Madrid",
       "country": "Spain",
       "emoji": "🇪🇸",
@@ -35,6 +23,18 @@
         "lng": 13.376933665713324
       },
       "id": 98443197
+    },
+    {
+      "cityName": "Janakpur",
+      "country": "Nepal",
+      "emoji": "🇳🇵",
+      "date": "2025-06-17T07:14:27.000Z",
+      "notes": "time passs",
+      "position": {
+        "lat": "26.716173757934094",
+        "lng": "85.924072265625"
+      },
+      "id": 98443198
     }
   ]
 }
